@@ -66,6 +66,7 @@ export default function Reader() {
   const [active, setActive] = useState<string[]>([]);
   const [locked, setLocked] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string>("src/agent.c");
+  const [mobileView, setMobileView] = useState<"article" | "code">("article");
   const articleRef = useRef<HTMLDivElement>(null);
 
   const lesson = lessons[lessonIndex];
@@ -151,6 +152,17 @@ export default function Reader() {
   const ranges = revealed.get(selectedFile) ?? [];
   const added = latestAdded.get(selectedFile) ?? new Set<number>();
 
+  const viewToggle = (
+    <div className="mobile-view-toggle">
+      <button className={mobileView === "article" ? "active" : ""} onClick={() => setMobileView("article")}>
+        文章
+      </button>
+      <button className={mobileView === "code" ? "active" : ""} onClick={() => setMobileView("code")}>
+        代码
+      </button>
+    </div>
+  );
+
   return (
     <main className="reader">
       <div className="lesson-tabs">
@@ -167,14 +179,16 @@ export default function Reader() {
           {locked ? "解锁编辑器" : "锁定编辑器"}
         </button>
       </div>
-      <div className="reader-panes">
+      <div className={`reader-panes ${mobileView === "code" ? "show-code" : "show-article"}`}>
         <div className="article-pane" ref={articleRef}>
+          {viewToggle}
           <h2 className="lesson-title">{lesson.title}</h2>
           <p className="lesson-desc">{lesson.description}</p>
           {article}
           <p className="article-end">读完了。去 TraceLab 打断点，或者回到仓库把代码跑起来。</p>
         </div>
         <div className="code-pane">
+          {viewToggle}
           <div className="code-tabs">
             {repoFiles.map((file) => (
               <button

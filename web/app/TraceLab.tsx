@@ -24,6 +24,7 @@ export default function TraceLab() {
   const [caseIndex, setCaseIndex] = useState(0);
   const [frameIndex, setFrameIndex] = useState(0);
   const [breakpoints, setBreakpoints] = useState<ReadonlySet<string>>(() => new Set());
+  const [mobileView, setMobileView] = useState<"steps" | "code" | "detail">("code");
   const codeScrollRef = useRef<HTMLDivElement>(null);
 
   const traceCase = traceCases[caseIndex] ?? null;
@@ -63,6 +64,13 @@ export default function TraceLab() {
       else next.add(key);
       return next;
     });
+  };
+
+  const isMobile = () => typeof window !== "undefined" && window.matchMedia("(max-width: 1080px)").matches;
+
+  const selectStep = (index: number) => {
+    goToFrame(index);
+    if (isMobile()) setMobileView("code");
   };
 
   useEffect(() => {
@@ -106,6 +114,20 @@ export default function TraceLab() {
     ? (frame!.context.messages as unknown[]).length
     : 0;
 
+  const viewToggle = (
+    <div className="trace-view-toggle">
+      <button className={mobileView === "steps" ? "active" : ""} onClick={() => setMobileView("steps")}>
+        步骤
+      </button>
+      <button className={mobileView === "code" ? "active" : ""} onClick={() => setMobileView("code")}>
+        代码
+      </button>
+      <button className={mobileView === "detail" ? "active" : ""} onClick={() => setMobileView("detail")}>
+        详情
+      </button>
+    </div>
+  );
+
   return (
     <main className="trace">
       <div className="trace-cases">
@@ -120,15 +142,16 @@ export default function TraceLab() {
           </button>
         ))}
       </div>
-      <div className="trace-panes">
+      <div className={`trace-panes show-${mobileView}`}>
         <div className="trace-steps">
+          {viewToggle}
           <h3>执行步骤</h3>
           <div className="steps-scroll">
             {frames.map((f, index) => (
               <button
                 key={f.id}
                 className={`step${index === frameIndex ? " active" : ""}`}
-                onClick={() => goToFrame(index)}
+                onClick={() => selectStep(index)}
               >
                 <span className={`dot ${f.kind}`} />
                 <span className="step-label">{f.label}</span>
@@ -146,6 +169,7 @@ export default function TraceLab() {
           <p className="trace-hint">点代码行号设断点，按 F5 跳到下一个断点，F10 单步。</p>
         </div>
         <div className="trace-code">
+          {viewToggle}
           <div className="code-head">
             <span>{file}</span>
             <span>
@@ -176,6 +200,7 @@ export default function TraceLab() {
           </div>
         </div>
         <div className="trace-detail">
+          {viewToggle}
           <h3>{frame?.label ?? ""}</h3>
           <p className="detail-text">{frame?.detail ?? ""}</p>
           <div className="detail-section">

@@ -29,7 +29,20 @@ export default function Home() {
           <button className={screen === "trace" ? "active" : ""} onClick={() => setScreen("trace")}>
             TraceLab
           </button>
-          <a href="https://github.com/memovai/mimiclaw" target="_blank" rel="noreferrer">
+          <a
+            className="nav-link"
+            href="https://github.com/smashxx00/mimiclaw-from-scratch"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+          <a
+            className="nav-link nav-external"
+            href="https://github.com/memovai/mimiclaw"
+            target="_blank"
+            rel="noreferrer"
+          >
             MimiClaw
           </a>
         </nav>
