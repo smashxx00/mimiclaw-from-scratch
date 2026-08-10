@@ -1,0 +1,4 @@
+{"role":"user","content":"现在几点？","ts":1786326909}
+{"role":"assistant","content":"现在是 2026-08-10 14:30:00。","ts":1786326909}
+{"role":"user","content":"记住我喜欢的颜色是蓝色。","ts":1786326911}
+{"role":"assistant","content":"记住了：你的喜好已经写入 MEMORY.md。","ts":1786326911}
