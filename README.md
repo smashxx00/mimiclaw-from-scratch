@@ -58,6 +58,11 @@ cd web && npm test
 make trace
 ```
 
+## 迁移说明
+
+项目不使用数据库，所有持久化数据都是文件（MEMORY.md + sessions JSONL）。
+迁移清单、数据导出/恢复脚本见 [docs/MIGRATION.md](docs/MIGRATION.md)。
+
 ## Thanks
 
 - [MimiClaw](https://github.com/memovai/mimiclaw)
