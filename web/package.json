@@ -1,0 +1,28 @@
+{
+  "name": "mimiclaw-from-scratch-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "generate:content": "node scripts/generate-content.mjs",
+    "predev": "npm run generate:content",
+    "dev": "next dev",
+    "prebuild": "npm run generate:content",
+    "build": "next build",
+    "start": "next start",
+    "test": "npm run build && node --test tests/rendered-html.test.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "marked": "^15.0.7",
+    "next": "^15.4.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.7.0"
+  },
+  "type": "module"
+}

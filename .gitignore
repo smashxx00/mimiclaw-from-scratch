@@ -1,0 +1,9 @@
+nano-mimiclaw
+test/unit_tests
+src/secrets.h
+*.jsonl
+*.log
+node_modules/
+.next/
+.next-test/
+.vercel/
